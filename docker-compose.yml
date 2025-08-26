@@ -1,0 +1,42 @@
+version: '3.8'
+
+services:
+  db:
+    image: postgres:15
+    container_name: cicd_db
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: dashboard
+      POSTGRES_PASSWORD: dashboard
+      POSTGRES_DB: cicd_dashboard
+    ports:
+      - '5432:5432'
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  backend:
+    build: ./src/backend
+    container_name: cicd_backend
+    depends_on:
+      - db
+    environment:
+      - DATABASE_URL=postgresql+asyncpg://dashboard:dashboard@db:5432/cicd_dashboard
+      - GITHUB_TOKEN=${GITHUB_TOKEN}
+      - SLACK_WEBHOOK_URL=${SLACK_WEBHOOK_URL}
+      - WEBHOOK_SECRET=${WEBHOOK_SECRET}
+    ports:
+      - '8000:8000'
+
+  frontend:
+    build: ./src/frontend
+    container_name: cicd_frontend
+    depends_on:
+      - backend
+    environment:
+      - VITE_API_BASE=http://backend:8000
+    ports:
+      - "3000:80"
+
+volumes:
+  db_data:
+
