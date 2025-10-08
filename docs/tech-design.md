@@ -57,7 +57,7 @@ repositories (1) --- (N) workflow_runs (1) --- (N) jobs (1) --- (N) steps
 workflow_runs (1) --- (N) alerts
 jobs (1) --- (N) logs
 
-6. API Design (examples)
+5. API Design (examples)
 
 Base: GET /api/v1/... | JSON
 
@@ -93,7 +93,7 @@ Admin endpoints protected by API key / JWT.
 
 Frontend uses session / JWT (for multi-user support).
 
-7. Alerting & Rules
+6. Alerting & Rules
 Types of alerts
 
 Instant Failure Alert — a workflow run with conclusion=failure triggers immediate alert.
@@ -104,7 +104,7 @@ Regression Alert — success rate drop below threshold in window (e.g., success 
 
 Slow Build Alert — average build duration > threshold (e.g., > 20 min) per workflow.
 
-20. Project structure & deliverables
+7. Project structure & deliverables
 
 Suggested repo layout:
 
